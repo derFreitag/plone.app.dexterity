@@ -9,6 +9,8 @@ def add_missing_uuids(context):
     catalog = getToolByName(context, 'portal_catalog')
     query = {'object_provides': IDexterityContent.__identifier__}
     for b in catalog.unrestrictedSearchResults(query):
+        if getattr(b, 'UID', None) is not None:
+            continue
         ob = b.getObject()
         if IUUID(ob, None) is None:
             addAttributeUUID(ob, None)
